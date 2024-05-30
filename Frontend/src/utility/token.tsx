@@ -1,6 +1,6 @@
 export const saveToken = (token: string, expireDate: Date) => {
-    const expires = expireDate.toUTCString();
-    document.cookie = `authToken=${token}; expires=${expires}; path=/; Secure; HttpOnly; SameSite=Strict;`;
+  const expires = new Date(expireDate).toUTCString();
+  document.cookie = `authToken=${token}; expires=${expires}; path=/; Secure; HttpOnly; SameSite=Strict;`;
   };
   
   export const clearToken = () => {

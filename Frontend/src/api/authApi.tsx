@@ -1,12 +1,14 @@
 import axios from "axios";
 
 export const Register = async (credentials: {
-  name: string;
+  firstName: string;
+  lastName:string;
   email: string;
   password: string;
 }) => {
   try {
-    const response = await axios.post(`YOUR_REGISTER_ENDPOINT`, credentials);
+    const response = await axios.post(`http://localhost:3000/api/v1/register`, credentials);
+    console.log("ram",response)
     return response.data;
   } catch (error) {
     console.error("Error occurred during registration:", error);
@@ -35,8 +37,9 @@ export const login = async (credentials: {
   }
 };
 
-// const creditionals ={
-//     name:'shivay',
+// const democreditionals ={
+//     firstName:'shivay',
+//     lastName:'rookie',
 //     email:'shivaysharma77893@gmail.com',
 //     password:'hello'
 // }
