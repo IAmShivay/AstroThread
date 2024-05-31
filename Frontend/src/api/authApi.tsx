@@ -1,45 +1,42 @@
 import axios from "axios";
 
-export const Register = async (credentials: {
+interface Credentials {
   firstName: string;
-  lastName:string;
+  lastName: string;
   email: string;
   password: string;
-}) => {
-  try {
-    const response = await axios.post(`http://localhost:3000/api/v1/register`, credentials);
-    console.log("ram",response)
-    return response.data;
-  } catch (error) {
-    console.error("Error occurred during registration:", error);
+}
 
-    return {
-      error:
-        "An unexpected error occurred during registration. Please try again later.",
-    };
+export const Register = async (credentials: Credentials) => {
+  try {
+    const response = await axios.post(
+      `http://localhost:3000/api/v1/register`,
+      credentials
+    );
+    console.log("Registration response:", response.data);
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      const errorMessage = error.response.data.message;
+      console.log(errorMessage);
+      throw errorMessage;
+    }
+    return error;
   }
 };
 
-export const login = async (credentials: {
+export const Login = async (credentials: {
   username: string;
   password: string;
 }) => {
   try {
     const response = await axios.post(`YOUR_LOGIN_ENDPOINT`, credentials);
+    console.log("Login response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error occurred during login:", error);
-
-    return {
-      error:
-        "An unexpected error occurred during login. Please try again later.",
-    };
+    throw new Error(
+      "An unexpected error occurred during login. Please try again later."
+    );
   }
 };
-
-// const democreditionals ={
-//     firstName:'shivay',
-//     lastName:'rookie',
-//     email:'shivaysharma77893@gmail.com',
-//     password:'hello'
-// }
