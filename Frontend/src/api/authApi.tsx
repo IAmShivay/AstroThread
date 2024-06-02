@@ -26,17 +26,18 @@ export const Register = async (credentials: Credentials) => {
 };
 
 export const Login = async (credentials: {
-  username: string;
+  email: string;
   password: string;
 }) => {
   try {
-    const response = await axios.post(`YOUR_LOGIN_ENDPOINT`, credentials);
+    const response = await axios.post(`http://localhost:3000/api/v1/login`, credentials);
     console.log("Login response:", response.data);
     return response.data;
-  } catch (error) {
-    console.error("Error occurred during login:", error);
-    throw new Error(
-      "An unexpected error occurred during login. Please try again later."
-    );
+  } catch (error:any) {
+    if (error.response) {
+      const errorMessage = error.response.data.message;
+      console.log(errorMessage);
+      throw errorMessage;
+    }
   }
 };

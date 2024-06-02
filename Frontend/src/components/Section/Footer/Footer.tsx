@@ -8,7 +8,7 @@ const Footer = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      style={{ backgroundColor: '#f5f5f5', padding: '20px', minHeight: '200px' }} // Adjusted minHeight for increased height
+      style={{ backgroundColor: '#f5f5f5', padding: '20px', minHeight: '200px' ,marginTop:"30px"}} // Adjusted minHeight for increased height
     >
       <Grid container justifyContent="space-between" spacing={2}>
         <Grid item>

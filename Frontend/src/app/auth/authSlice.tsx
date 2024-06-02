@@ -25,7 +25,7 @@ interface Credentials {
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-  async (credentials: { username: string; password: string }, thunkAPI) => {
+  async (credentials: { email: string; password: string }, thunkAPI) => {
     try {
       const data = await Login(credentials);
       return data;
@@ -37,14 +37,11 @@ export const loginUser = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
-  async (
-    credentials:Credentials,
-    thunkAPI
-  ) => {
+  async (credentials: Credentials, thunkAPI) => {
     try {
       const data = await Register(credentials);
       return data;
-    } catch (error:any) {
+    } catch (error: any) {
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -75,7 +72,7 @@ const authSlice = createSlice({
       )
       .addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.payload;
       })
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
@@ -91,7 +88,7 @@ const authSlice = createSlice({
       )
       .addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
-        state.error = action.payload; // Fixed this line
+        state.error = action.payload;
       });
   },
 });

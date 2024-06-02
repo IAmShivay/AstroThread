@@ -43,92 +43,93 @@ const CarouselComponent: React.FC = () => {
 
   return (
     <>
-    <Box
-      sx={{
-        width: "100%",
-        height: 500,
-        position: "relative",
-        overflow: "hidden",
-        perspective: "1000px",
-      }}
-    >
-      {products.map((product, index) => (
-        <motion.div
-          key={product.id}
-          variants={variants}
-          initial="hidden"
-          animate={index === currentIndex ? "visible" : "hidden"}
-          transition={{ ease: "easeInOut", duration: 1 }}
-          style={{
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            transform: `rotateY(${index - currentIndex}deg)`,
-            zIndex: index === currentIndex ? 1 : 0,
-          }}
-        >
-          <img
-            src={product.image}
-            alt={product.title}
+      <Box
+        sx={{
+          width: "100%",
+          height: 500,
+          position: "relative",
+          overflow: "hidden",
+          perspective: "1000px",
+        }}
+      >
+        {products.map((product, index) => (
+          <motion.div
+            key={product.id}
+            variants={variants}
+            initial="hidden"
+            animate={index === currentIndex ? "visible" : "hidden"}
+            transition={{ ease: "easeInOut", duration: 1 }}
             style={{
-              maxWidth: "100%",
-              maxHeight: "100%",
-              borderRadius: "8px",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-              transform: "translateZ(100px)",
-            }}
-          />
-          <Box
-            sx={{
-              textAlign: "center",
+              width: "100%",
+              height: "100%",
               position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              backgroundColor: "rgba(255, 255, 255, 0.8)",
-              padding: 2,
-              transform: "translateZ(50px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transform: `rotateY(${index - currentIndex}deg)`,
+              zIndex: index === currentIndex ? 1 : 0,
             }}
           >
-            <Typography variant="h6">{product.title}</Typography>
-            <Typography variant="body1">{product.description}</Typography>
-            <Button href={product.link} variant="contained" color="primary">
-              Buy Now
-            </Button>
-          </Box>
-        </motion.div>
-      ))}
-      <Button
-        onClick={prevProduct}
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: 0,
-          zIndex: 2,
-          transform: "translateY(-50%)",
-        }}
-      >
-        &lt;
-      </Button>
-      <Button
-        onClick={nextProduct}
-        sx={{
-          position: "absolute",
-          top: "50%",
-          right: 0,
-          zIndex: 2,
-          transform: "translateY(-50%)",
-        }}
-      >
-        &gt;
-      </Button><br/>
-      
-    </Box>
-    <FeaturedProducts/><br/>
-    <Bestsellers/>
+            <img
+              src={product.image}
+              alt={product.title}
+              style={{
+                maxWidth: "100%",
+                maxHeight: "100%",
+                borderRadius: "8px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                transform: "translateZ(100px)",
+              }}
+            />
+            <Box
+              sx={{
+                textAlign: "center",
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                padding: 2,
+                transform: "translateZ(50px)",
+              }}
+            >
+              <Typography variant="h6">{product.title}</Typography>
+              <Typography variant="body1">{product.description}</Typography>
+              <Button href={product.link} variant="contained" color="primary">
+                Buy Now
+              </Button>
+            </Box>
+          </motion.div>
+        ))}
+        <Button
+          onClick={prevProduct}
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: 0,
+            zIndex: 2,
+            transform: "translateY(-50%)",
+          }}
+        >
+          &lt;
+        </Button>
+        <Button
+          onClick={nextProduct}
+          sx={{
+            position: "absolute",
+            top: "50%",
+            right: 0,
+            zIndex: 2,
+            transform: "translateY(-50%)",
+          }}
+        >
+          &gt;
+        </Button>
+        <br />
+      </Box>
+      <FeaturedProducts />
+      <br />
+      <Bestsellers />
     </>
   );
 };
