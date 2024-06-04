@@ -13,7 +13,7 @@ import { Link as RouterLink } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../app/auth/authSlice";
-import { AppDispatch } from "../../../app/store";
+import { AppDispatch } from "../../../store";
 const LoginPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [submitting, setSubmitting] = useState(false);

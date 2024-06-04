@@ -1,21 +1,26 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { Login, Register } from "../../api/authApi";
-import { getToken } from "../../utility/token";
-import { RootState } from "../store";
+import { saveToken, clearToken, getToken } from "../../utility/token";
+import { RootState } from "../../store";
 
 interface AuthState {
-  user: string | null;
-  token: string | null;
+  user: string | "";
+  token: string | "";
   isLoading: boolean;
-  error: string | null;
+  error: string | "";
+  isAuthenticated: boolean;
+  role: string | "";
 }
 
 const initialState: AuthState = {
-  user: null,
+  user: "",
   token: getToken(),
   isLoading: false,
-  error: null,
+  error: "",
+  isAuthenticated: !!getToken(),
+  role: "",
 };
+
 interface Credentials {
   firstName: string;
   lastName: string;
@@ -28,9 +33,10 @@ export const loginUser = createAsyncThunk(
   async (credentials: { email: string; password: string }, thunkAPI) => {
     try {
       const data = await Login(credentials);
+      saveToken(data?.token);
       return data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
@@ -42,7 +48,7 @@ export const registerUser = createAsyncThunk(
       const data = await Register(credentials);
       return data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
@@ -52,22 +58,27 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout(state) {
-      state.user = null;
-      state.token = null;
+      state.user = "";
+      state.token = "";
+      state.isAuthenticated = false;
+      state.role = "";
+      clearToken();
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
-        state.error = null;
+        state.error = "";
       })
       .addCase(
         loginUser.fulfilled,
-        (state, action: PayloadAction<{ user: string; token: string }>) => {
+        (state, action: PayloadAction<{ user: any; token: string; role: string }>) => {
           state.isLoading = false;
+          state.isAuthenticated = true;
           state.user = action.payload.user;
           state.token = action.payload.token;
+          state.role = action.payload.user.role; // Assuming role is part of the response
         }
       )
       .addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
@@ -76,14 +87,16 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
-        state.error = null;
+        state.error = "";
       })
       .addCase(
         registerUser.fulfilled,
-        (state, action: PayloadAction<{ user: string; token: string }>) => {
+        (state, action: PayloadAction<{ user: any; token: string; role: string }>) => {
           state.isLoading = false;
+          state.isAuthenticated = true;
           state.user = action.payload.user;
           state.token = action.payload.token;
+          state.role = action.payload.user.role; // Assuming role is part of the response
         }
       )
       .addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {

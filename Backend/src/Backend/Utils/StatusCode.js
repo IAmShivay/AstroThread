@@ -9,7 +9,7 @@ const sendToken = (user, res, status) => {
   };
   res
     .status(status)
-    .cookie("token",token, user, options)
-    .json({ success: true, token });
+    .cookie("token", token, options)
+    .json({ success: true, token, user });
 };
 module.exports = sendToken;

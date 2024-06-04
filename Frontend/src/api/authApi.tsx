@@ -30,10 +30,13 @@ export const Login = async (credentials: {
   password: string;
 }) => {
   try {
-    const response = await axios.post(`http://localhost:3000/api/v1/login`, credentials);
+    const response = await axios.post(
+      `http://localhost:3000/api/v1/login`,
+      credentials
+    );
     console.log("Login response:", response.data);
     return response.data;
-  } catch (error:any) {
+  } catch (error: any) {
     if (error.response) {
       const errorMessage = error.response.data.message;
       console.log(errorMessage);

@@ -147,7 +147,7 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../../app/auth/authSlice";
-import { AppDispatch } from "../../../app/store";
+import { AppDispatch } from "../../../store";
 import { Toaster } from "react-hot-toast";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
