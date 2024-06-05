@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Menu, MenuItem, Box, IconButton, TextField } from "@mui/material";
+import { Menu, MenuItem, Box, IconButton, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import useBreakpoints from "../../../hooks";
-import { Link } from "@mui/material";
 import SearchBar from "../Searchbar/SearchBar";
+import Logo from "../../Loader.svg";
+import CustomLink from "../CustomLink/Links";
+
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { isSm } = useBreakpoints();
@@ -20,9 +21,10 @@ const Header: React.FC = () => {
     setMenuOpen(false);
   };
 
-  const handleSearch = () => {
-    console.log("Search Started");
+  const handleAddToCart = () => {
+    console.log("Item added to cart");
   };
+
 
   return (
     <Box
@@ -33,6 +35,9 @@ const Header: React.FC = () => {
         p: 2,
       }}
     >
+      <Box>
+        <img src={Logo} alt="Logo" style={{ height: 40 }} />
+      </Box>
       {isSm ? (
         <>
           <IconButton onClick={handleMenuToggle}>
@@ -45,34 +50,44 @@ const Header: React.FC = () => {
             transformOrigin={{ vertical: "top", horizontal: "right" }}
           >
             <MenuItem onClick={handleClose}>
-              <Link href="/#">HOME</Link>
+              <CustomLink href="/home">HOME</CustomLink>
             </MenuItem>
-            <MenuItem onClick={handleClose}>PROUCTS</MenuItem>
-            <MenuItem onClick={handleClose}>CONTACT US</MenuItem>
-            <MenuItem onClick={handleClose}>ABOUT US</MenuItem>
+            <MenuItem onClick={handleClose}>
+              <CustomLink href="/home/products">PRODUCTS</CustomLink>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <CustomLink href="/home/contactUs">CONTACT US</CustomLink>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <CustomLink href="/home/aboutUs">ABOUT US</CustomLink>
+            </MenuItem>
           </Menu>
         </>
       ) : (
         <Box sx={{ display: "flex", flexGrow: 1, gap: 2 }}>
           <MenuItem onClick={handleClose}>
-            <Link href="/" underline="none">
-              HOME
-            </Link>
+            <CustomLink href="/home">HOME</CustomLink>
           </MenuItem>
           <MenuItem>
-            <Link href="/products" underline="none">
-              PROUCTS
-            </Link>
+            <CustomLink href="/home/products">
+              <Typography variant="body1" color="inherit">
+                PRODUCTS
+              </Typography>
+            </CustomLink>
           </MenuItem>
           <MenuItem>
-            <Link href="/contactUs" underline="none">
-              CONTACT US
-            </Link>
+            <CustomLink href="/home/contactUs">
+              <Typography variant="body1" color="inherit">
+                CONTACT US
+              </Typography>
+            </CustomLink>
           </MenuItem>
           <MenuItem>
-            <Link href="/aboutUs" underline="none">
-              ABOUT US
-            </Link>
+            <CustomLink href="/home/aboutUs">
+              <Typography variant="body1" color="inherit">
+                ABOUT US
+              </Typography>
+            </CustomLink>
           </MenuItem>
           <Box sx={{ marginLeft: "auto", display: "flex", gap: 1 }}>
             <IconButton>

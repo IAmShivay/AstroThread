@@ -1,5 +1,6 @@
 import {
   Grid,
+  Box,
   Card,
   CardContent,
   CardMedia,
@@ -46,7 +47,7 @@ const FeaturedProducts = () => {
   
 
   return (
-    <div style={{ padding: "20px" }}>
+    <Box style={{ padding: "20px" }}>
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -129,7 +130,7 @@ const FeaturedProducts = () => {
           </Grid>
         ))}
       </Grid>
-    </div>
+    </Box>
   );
 };
 

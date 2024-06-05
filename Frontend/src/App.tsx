@@ -11,17 +11,15 @@ import { RootState } from "./store.tsx";
 import AdminAcessRequest from "./components/Admin/AdminAcessRequest.tsx";
 import AboutUs from "./components/Section/AboutUs/AboutUs.tsx";
 import ContactUs from "./components/Section/ContactUs/ContactUS.tsx";
+import UserDashboard from "./components/User/Main.tsx";
 
-
-// Genral Route
+// Routes
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<PublicRoute />} />
-        <Route path="/contactUs" element={<ContactUs />} />
-        <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/home/*" element={<GenralRoute />} />
         <Route path="/user/*" element={<PublicRoute />} />
         <Route path="/admin/*" element={<PrivateRoute />} />
       </Routes>
@@ -29,7 +27,19 @@ const App: React.FC = () => {
   );
 };
 
-// Public Routes For User Access
+const GenralRoute: React.FC = () => (
+  <React.Fragment>
+    <Header />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/contactUs" element={<ContactUs />} />
+      <Route path="/aboutUs" element={<AboutUs />} />
+    </Routes>
+    <Footer />
+  </React.Fragment>
+);
+
+// User Routes
 
 const PublicRoute: React.FC = () => (
   <React.Fragment>
@@ -38,12 +48,13 @@ const PublicRoute: React.FC = () => (
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/dashboard" element={<UserDashboard />} />
     </Routes>
     <Footer />
   </React.Fragment>
 );
 
-// Private Access For Admin
+//Admin Routes
 
 const PrivateRoute: React.FC = () => {
   const isAuthenticated = useSelector(
