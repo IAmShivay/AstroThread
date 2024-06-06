@@ -3,6 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import FeaturedProducts from "../Section/Featured Products/featuredProduct";
 import Bestsellers from "../Section/BestSellers/bestSellers";
+
 const products = [
   {
     id: 1,
@@ -22,8 +23,8 @@ const products = [
 ];
 
 const variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
+  hidden: { opacity: 0, x: 100 },
+  visible: { opacity: 1, x: 0 },
 };
 
 const CarouselComponent: React.FC = () => {
@@ -49,7 +50,11 @@ const CarouselComponent: React.FC = () => {
           height: 500,
           position: "relative",
           overflow: "hidden",
-          perspective: "1000px",
+          background: "linear-gradient(135deg, #ff7e5f, #feb47b)",
+          clipPath: "polygon(0 0, 100% 0, 100% 85%, 0% 100%)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         {products.map((product, index) => (
@@ -58,7 +63,7 @@ const CarouselComponent: React.FC = () => {
             variants={variants}
             initial="hidden"
             animate={index === currentIndex ? "visible" : "hidden"}
-            transition={{ ease: "easeInOut", duration: 1 }}
+            transition={{ ease: "easeInOut", duration: 0.8 }}
             style={{
               width: "100%",
               height: "100%",
@@ -66,38 +71,56 @@ const CarouselComponent: React.FC = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              transform: `rotateY(${index - currentIndex}deg)`,
               zIndex: index === currentIndex ? 1 : 0,
+              opacity: index === currentIndex ? 1 : 0,
             }}
           >
-            <img
-              src={product.image}
-              alt={product.title}
-              style={{
-                maxWidth: "100%",
-                maxHeight: "100%",
-                borderRadius: "8px",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                transform: "translateZ(100px)",
-              }}
-            />
             <Box
               sx={{
-                textAlign: "center",
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                right: 0,
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                padding: 2,
-                transform: "translateZ(50px)",
+                position: "relative",
+                width: "80%",
+                height: "80%",
+                overflow: "hidden",
+                borderRadius: "16px",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                backgroundColor: "#fff",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
-              <Typography variant="h6">{product.title}</Typography>
-              <Typography variant="body1">{product.description}</Typography>
-              <Button href={product.link} variant="contained" color="primary">
-                Buy Now
-              </Button>
+              <img
+                src={product.image}
+                alt={product.title}
+                style={{
+                  width: "100%",
+                  height: "70%",
+                  objectFit: "cover",
+                  borderTopLeftRadius: "16px",
+                  borderTopRightRadius: "16px",
+                }}
+              />
+              <Box
+                sx={{
+                  padding: 3,
+                  textAlign: "center",
+                }}
+              >
+                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                  {product.title}
+                </Typography>
+                <Typography variant="body1" sx={{ marginBottom: 1 }}>
+                  {product.description}
+                </Typography>
+                <Button
+                  href={product.link}
+                  variant="contained"
+                  color="primary"
+                  sx={{ marginTop: 2 }}
+                >
+                  Buy Now
+                </Button>
+              </Box>
             </Box>
           </motion.div>
         ))}
@@ -106,9 +129,17 @@ const CarouselComponent: React.FC = () => {
           sx={{
             position: "absolute",
             top: "50%",
-            left: 0,
+            left: 16,
             zIndex: 2,
             transform: "translateY(-50%)",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            color: "#fff",
+            padding: "10px",
+            minWidth: "40px",
+            borderRadius: "50%",
+            '&:hover': {
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+            },
           }}
         >
           &lt;
@@ -118,18 +149,28 @@ const CarouselComponent: React.FC = () => {
           sx={{
             position: "absolute",
             top: "50%",
-            right: 0,
+            right: 16,
             zIndex: 2,
             transform: "translateY(-50%)",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            color: "#fff",
+            padding: "10px",
+            minWidth: "40px",
+            borderRadius: "50%",
+            '&:hover': {
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+            },
           }}
         >
           &gt;
         </Button>
-        <br />
       </Box>
-      <FeaturedProducts />
-      <br />
-      <Bestsellers />
+      <Box sx={{ padding: 3 }}>
+        <FeaturedProducts />
+      </Box>
+      <Box sx={{ padding: 3 }}>
+        <Bestsellers />
+      </Box>
     </>
   );
 };

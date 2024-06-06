@@ -53,13 +53,13 @@ const Header: React.FC = () => {
               <CustomLink href="/home">HOME</CustomLink>
             </MenuItem>
             <MenuItem onClick={handleClose}>
-              <CustomLink href="/home/products">PRODUCTS</CustomLink>
+              <CustomLink href="products">PRODUCTS</CustomLink>
             </MenuItem>
             <MenuItem onClick={handleClose}>
-              <CustomLink href="/home/contactUs">CONTACT US</CustomLink>
+              <CustomLink href="contactUs">CONTACT US</CustomLink>
             </MenuItem>
             <MenuItem onClick={handleClose}>
-              <CustomLink href="/home/aboutUs">ABOUT US</CustomLink>
+              <CustomLink href="aboutUs">ABOUT US</CustomLink>
             </MenuItem>
           </Menu>
         </>
@@ -69,21 +69,21 @@ const Header: React.FC = () => {
             <CustomLink href="/home">HOME</CustomLink>
           </MenuItem>
           <MenuItem>
-            <CustomLink href="/home/products">
+            <CustomLink href="/products">
               <Typography variant="body1" color="inherit">
                 PRODUCTS
               </Typography>
             </CustomLink>
           </MenuItem>
           <MenuItem>
-            <CustomLink href="/home/contactUs">
+            <CustomLink href="/contactUs">
               <Typography variant="body1" color="inherit">
                 CONTACT US
               </Typography>
             </CustomLink>
           </MenuItem>
           <MenuItem>
-            <CustomLink href="/home/aboutUs">
+            <CustomLink href="/aboutUs">
               <Typography variant="body1" color="inherit">
                 ABOUT US
               </Typography>
