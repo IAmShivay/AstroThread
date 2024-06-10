@@ -1,7 +1,7 @@
 // utility/token.ts
 
 export const saveToken = (token: string) => {
-  document.cookie = `token=${token}; path=/; HttpOnly; Secure; SameSite=Strict`;
+  document.cookie = `token=${token}; path=/; httpOnly; Secure; SameSite=Strict`;
 };
 
 export const clearToken = () => {

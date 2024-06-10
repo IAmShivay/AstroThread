@@ -47,7 +47,6 @@ const RegisterPage: React.FC = () => {
       await dispatch(registerUser(formData));
     } catch (err) {
       console.log(err);
-      // Handle registration error here, you can set an error state and display it to the user
     } finally {
       setSubmitting(false);
       setFormData({

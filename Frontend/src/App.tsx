@@ -2,22 +2,31 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "./store.tsx";
+import Products from "./components/Section/products/Products.tsx";
+import LoadingComponent from "./components/Loading/Loading.tsx";
+import ProductDetails from "./components/Section/ProductDetails/ProductDetails.tsx";
 
 const Footer = lazy(() => import("./components/Section/Footer/Footer"));
 const Header = lazy(() => import("./components/Section/Header/Header"));
-const RegisterPage = lazy(() => import("./components/Section/Register/Register"));
+const RegisterPage = lazy(
+  () => import("./components/Section/Register/Register")
+);
 const LoginPage = lazy(() => import("./components/Section/Login/Login.tsx"));
 const Home = lazy(() => import("./components/Home/Home"));
 const Main = lazy(() => import("./components/Admin/Main.tsx"));
-const AdminAcessRequest = lazy(() => import("./components/Admin/AdminAcessRequest.tsx"));
+const AdminAcessRequest = lazy(
+  () => import("./components/Admin/AdminAcessRequest.tsx")
+);
 const AboutUs = lazy(() => import("./components/Section/AboutUs/AboutUs.tsx"));
-const ContactUs = lazy(() => import("./components/Section/ContactUs/ContactUS.tsx"));
+const ContactUs = lazy(
+  () => import("./components/Section/ContactUs/ContactUS.tsx")
+);
 const UserDashboard = lazy(() => import("./components/User/Main.tsx"));
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingComponent />}>
         <Routes>
           <Route path="/*" element={<GenralRoute />} />
           <Route path="/user/*" element={<PublicRoute />} />
@@ -33,8 +42,10 @@ const GenralRoute: React.FC = () => (
     <Header />
     <Routes>
       <Route path="home" element={<Home />} />
+      <Route path="/product/:name/:id" element={<ProductDetails />} />
       <Route path="contactUs" element={<ContactUs />} />
       <Route path="aboutUs" element={<AboutUs />} />
+      <Route path="products" element={<Products />} />
     </Routes>
     <Footer />
   </React.Fragment>
