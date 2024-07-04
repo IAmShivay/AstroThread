@@ -2,7 +2,7 @@ const sendToken = (user, res, status) => {
   const token = user.getJWTToken();
   // options for cookie
   const options = {
-    expire: new Date(
+    expires: new Date(
       Date.now() + process.env.COKKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,

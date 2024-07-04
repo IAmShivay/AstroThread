@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { Login, Register } from "../../api/authApi";
-import { saveToken, clearToken, getToken } from "../../utility/token";
+import {getToken } from "../../utility/token";
 import { RootState } from "../../store";
 
 interface AuthState {
@@ -33,7 +33,7 @@ export const loginUser = createAsyncThunk(
   async (credentials: { email: string; password: string }, thunkAPI) => {
     try {
       const data = await Login(credentials);
-      saveToken(data?.token);
+      // saveToken(data?.token ,data?.user);
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -62,7 +62,7 @@ const authSlice = createSlice({
       state.token = "";
       state.isAuthenticated = false;
       state.role = "";
-      clearToken();
+      // clearToken();
     },
   },
   extraReducers: (builder) => {
