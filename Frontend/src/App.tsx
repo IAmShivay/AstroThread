@@ -1,11 +1,20 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "./store.tsx";
 import Products from "./components/Section/products/Products.tsx";
 import LoadingComponent from "./components/Loading/Loading.tsx";
 import ProductDetails from "./components/Section/ProductDetails/ProductDetails.tsx";
-
+import {
+  selectIsAdmin,
+  selectIsAuthenticated,
+  selectIsUser,
+} from "./app/middleware/authentication.tsx";
 const Footer = lazy(() => import("./components/Section/Footer/Footer"));
 const Header = lazy(() => import("./components/Section/Header/Header"));
 const RegisterPage = lazy(
@@ -30,7 +39,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/*" element={<GenralRoute />} />
           <Route path="/user/*" element={<PublicRoute />} />
-          <Route path="/admin/*" element={<PrivateRoute />} />
+          <Route path="/app/v1*" element={<PrivateRoute />} />
         </Routes>
       </Suspense>
     </Router>
@@ -41,7 +50,7 @@ const GenralRoute: React.FC = () => (
   <React.Fragment>
     <Header />
     <Routes>
-      <Route path="home" element={<Home />} />
+      <Route path="" element={<Home />} />
       <Route path="/product/:name/:id" element={<ProductDetails />} />
       <Route path="contactUs" element={<ContactUs />} />
       <Route path="aboutUs" element={<AboutUs />} />
@@ -57,24 +66,24 @@ const PublicRoute: React.FC = () => (
     <Routes>
       <Route path="register" element={<RegisterPage />} />
       <Route path="login" element={<LoginPage />} />
-      <Route path="dashboard" element={<UserDashboard />} />
     </Routes>
     <Footer />
   </React.Fragment>
 );
-
 const PrivateRoute: React.FC = () => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
-  const isAuthorised = useSelector((state: RootState) => state.auth.role);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const isAdmin = useSelector(selectIsAdmin);
+  const isUser = useSelector(selectIsUser);
 
-  return isAuthenticated && isAuthorised === "admin" ? (
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+
+  return (
     <Routes>
-      <Route path="dashboard" element={<Main />} />
+      {isAdmin && <Route path="/admin/dashboard" element={<Main />} />} 
+      {isUser && <Route path="/user/dashboard" element={<UserDashboard />} />}
     </Routes>
-  ) : (
-    <AdminAcessRequest />
   );
 };
 

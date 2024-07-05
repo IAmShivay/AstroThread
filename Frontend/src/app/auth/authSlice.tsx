@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { Login, Register } from "../../api/authApi";
-import {getToken } from "../../utility/token";
+import { getToken } from "../../utility/token";
 import { RootState } from "../../store";
 
 interface AuthState {

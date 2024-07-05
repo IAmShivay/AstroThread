@@ -1,11 +1,20 @@
-import React from "react";
+// index.tsx
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import { Provider } from "react-redux";
-import store from "./store.tsx";
+import { PersistGate } from "redux-persist/integration/react"; // Import PersistGate
+import store, { persistor } from "./store"; // Import store and persistor
+import App from "./App";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <Provider store={store}>
-    <App />
-  </Provider>
-);
+const rootElement = document.getElementById("root");
+
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
+  );
+} else {
+  throw new Error("Root element not found in the DOM");
+}
