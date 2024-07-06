@@ -1,107 +1,201 @@
-import React, { useState } from "react";
-import { Menu, MenuItem, Box, IconButton, Typography } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import CloseIcon from "@mui/icons-material/Close";
-import useBreakpoints from "../../../hooks";
-import SearchBar from "../Searchbar/SearchBar";
-import Logo from "../../Loader.svg";
-import CustomLink from "../CustomLink/Links";
+import React, { useState, useCallback } from "react";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Button,
+  Tooltip,
+  MenuItem,
+} from "@mui/material";
+import { Adb as AdbIcon, Menu as MenuIcon } from "@mui/icons-material";
 
-const Header: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { isSm } = useBreakpoints();
+const pages = [
+  { name: "Products", link: "#products" },
+  { name: "Pricing", link: "#pricing" },
+  { name: "Blog", link: "#blog" },
+];
+const settings = [
+  { name: "Profile", link: "#profile" },
+  { name: "Account", link: "#account" },
+  { name: "Dashboard", link: "#dashboard" },
+  { name: "Logout", link: "#logout" },
+];
 
-  const handleMenuToggle = () => {
-    setMenuOpen((prev) => !prev);
-  };
+const ResponsiveAppBar = React.memo(() => {
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
-  const handleClose = () => {
-    setMenuOpen(false);
-  };
+  const handleOpenNavMenu = useCallback((event:any) => {
+    setAnchorElNav(event.currentTarget);
+  }, []);
 
-  const handleAddToCart = () => {
-    console.log("Item added to cart");
-  };
+  const handleOpenUserMenu = useCallback((event:any) => {
+    setAnchorElUser(event.currentTarget);
+  }, []);
 
+  const handleCloseNavMenu = useCallback(() => {
+    setAnchorElNav(null);
+  }, []);
+
+  const handleCloseUserMenu = useCallback(() => {
+    setAnchorElUser(null);
+  }, []);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        p: 2,
-      }}
-    >
-      <Box>
-        <img src={Logo} alt="Logo" style={{ height: 40 }} />
-      </Box>
-      {isSm ? (
-        <>
-          <IconButton onClick={handleMenuToggle}>
-            {menuOpen ? <CloseIcon /> : <MenuIcon />}
-          </IconButton>
-          <Menu
-            open={menuOpen}
-            onClose={handleClose}
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            transformOrigin={{ vertical: "top", horizontal: "right" }}
+    <AppBar position="static" sx={{ backgroundColor: "#FFFFFF" }}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <AdbIcon
+            sx={{
+              display: { xs: "none", md: "flex" },
+              mr: 1,
+              color: "#000000",
+            }}
+          />
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "#000000",
+              textDecoration: "none",
+            }}
           >
-            <MenuItem onClick={handleClose}>
-              <CustomLink href="/home">HOME</CustomLink>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <CustomLink href="products">PRODUCTS</CustomLink>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <CustomLink href="contactUs">CONTACT US</CustomLink>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <CustomLink href="aboutUs">ABOUT US</CustomLink>
-            </MenuItem>
-          </Menu>
-        </>
-      ) : (
-        <Box sx={{ display: "flex", flexGrow: 1, gap: 2 }}>
-          <MenuItem onClick={handleClose}>
-            <CustomLink href="/home">HOME</CustomLink>
-          </MenuItem>
-          <MenuItem>
-            <CustomLink href="/products">
-              <Typography variant="body1" color="inherit">
-                PRODUCTS
-              </Typography>
-            </CustomLink>
-          </MenuItem>
-          <MenuItem>
-            <CustomLink href="/contactUs">
-              <Typography variant="body1" color="inherit">
-                CONTACT US
-              </Typography>
-            </CustomLink>
-          </MenuItem>
-          <MenuItem>
-            <CustomLink href="/aboutUs">
-              <Typography variant="body1" color="inherit">
-                ABOUT US
-              </Typography>
-            </CustomLink>
-          </MenuItem>
-          <Box sx={{ marginLeft: "auto", display: "flex", gap: 1 }}>
-            <IconButton>
-              <AddShoppingCartIcon />
-            </IconButton>
-            <SearchBar />
-            <IconButton>
-              <AccountCircleIcon />
-            </IconButton>
-          </Box>
-        </Box>
-      )}
-    </Box>
-  );
-};
+            LOGO
+          </Typography>
 
-export default Header;
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon sx={{ color: "#000000" }} />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center" sx={{ color: "#000000" }}>
+                    <a
+                      href={page.link}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      {page.name}
+                    </a>
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <AdbIcon
+            sx={{
+              display: { xs: "flex", md: "none" },
+              mr: 1,
+              color: "#000000",
+            }}
+          />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "#000000",
+              textDecoration: "none",
+            }}
+          >
+            LOGO
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page) => (
+              <Button
+                key={page.name}
+                href={page.link}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "#000000", display: "block" }}
+              >
+                {page.name}
+              </Button>
+            ))}
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center" sx={{ color: "#000000" }}>
+                    <a
+                      href={setting.link}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      {setting.name}
+                    </a>
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
+});
+
+export default ResponsiveAppBar;
